@@ -17,5 +17,24 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-
+   <property>
+      <name>dfs.namenode.name.dir</name>
+      <value>file:///tmp/turley/hadoop/name</value>
+   </property>
+   <property>
+      <name>dfs.datanode.data.dir</name>
+      <value>file:///tmp/turley/hadoop/hdfs</value>
+   </property>
+   <property>
+      <name>dfs.datanode.address</name>
+      <value>0.0.0.0:9998</value>
+   </property>
+   <property>
+      <name>dfs.datanode.http.address</name>
+      <value>0.0.0.0:0</value>
+   </property>
+   <property>
+      <name>dfs.datanode.ipc.address</name>
+      <value>0.0.0.0:0</value>
+   </property>
 </configuration>

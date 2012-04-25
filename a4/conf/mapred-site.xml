@@ -17,12 +17,17 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-   <property>
-      <name>fs.defaultFS</name>
-      <value>hdfs://antero:9998</value>
-   </property>
-   <property>
-      <name>io.file.buffer.size</name>
-      <value>131072</value>
-   </property>
+<property>
+    <name>mapreduce.cluster.temp.dir</name>
+    <value>/tmp/turley/hadoop</value>
+    <description>No description</description>
+    <final>true</final>
+  </property>
+
+  <property>
+    <name>mapreduce.cluster.local.dir</name>
+    <value>/tmp/turley/hadoop</value>
+    <description>No description</description>
+    <final>true</final>
+  </property>
 </configuration>
