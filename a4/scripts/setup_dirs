@@ -1,0 +1,28 @@
+#!/bin/bash
+# read slave files from conf directory
+# and create hadoop local directories in /tmp
+
+echo $HADOOP_CONF_DIR
+conf_dir=$HADOOP_CONF_DIR
+
+slaves=`cat $conf_dir/slaves`
+user=`whoami`
+
+echo ${slaves[*]}
+for host in ${slaves[*]}
+do
+    echo "Creating dirs on $host."
+    ssh $host "mkdir /tmp/$user-data /tmp/$user-hadoop-logs"
+    echo "Changing perms on $host."
+    ssh $host "chmod -R 755 /tmp/$user-data /tmp/$user-hadoop-logs"
+done
+
+masters=`cat $conf_dir/masters`
+echo ${masters[*]}
+for host in ${masters[*]}
+do
+    echo "Creating dirs on $host."
+    ssh $host "mkdir /tmp/$user-name"
+    echo "Changing perms on $host."
+    ssh $host "chmod -R 755 /tmp/$user-name"
+done

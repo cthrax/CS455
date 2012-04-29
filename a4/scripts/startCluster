@@ -1,0 +1,7 @@
+#!/bin/bash
+#Start Daemon
+/usr/local/hadoop-0.23.1/sbin/yarn-daemon.sh start resourcemanager
+/usr/local/hadoop-0.23.1/sbin/yarn-daemon.sh start nodemanager
+#Start Cluster
+/usr/local/hadoop-0.23.1/sbin/start-dfs.sh
+/usr/local/hadoop-0.23.1/sbin/start-yarn.sh

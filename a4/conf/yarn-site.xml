@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<configuration>
+
+<!-- Site specific YARN configuration properties -->
+ <property>
+    <name>yarn.resourcemanager.resource-tracker.address</name>
+    <value>antero:10000</value>
+    <description>host is the hostname of the resource manager and 
+    port is the port on which the NodeManagers contact the Resource Manager.
+    </description>
+ </property>
+
+ <property>
+    <name>yarn.resourcemanager.scheduler.address</name>
+    <value>antero:10001</value>
+    <description>host is the hostname of the resourcemanager and port is the port
+    on which the Applications in the cluster talk to the Resource Manager.
+    </description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.scheduler.class</name>
+    <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
+    <description>In case you do not want to use the default scheduler</description>
+  </property>
+
+  <property>
+    <name>yarn.resourcemanager.address</name>
+    <value>antero:10002</value>
+    <description>the host is the hostname of the ResourceManager and the port is the port on
+    which the clients can talk to the Resource Manager. </description>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.local-dirs</name>
+    <value>/tmp/turley/hadoop/</value>
+    <description>the local directories used by the nodemanager</description>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.address</name>
+    <value>0.0.0.0:0</value>
+    <description>the nodemanagers bind to this port</description>
+  </property>  
+
+ <property>
+      <name>yarn.nodemanager.localizer.address</name>
+      <value>0.0.0.0:10010</value>
+ </property>
+
+  <property>
+    <name>yarn.nodemanager.resource.memory-mb</name>
+    <value>10240</value>
+    <description>the amount of memory on the NodeManager in GB</description>
+  </property>
+ 
+  <property>
+    <name>yarn.nodemanager.remote-app-log-dir</name>
+    <value>/tmp/turley/hadoop/logs</value>
+    <description>directory on hdfs where the application logs are moved to </description>
+  </property>
+
+   <property>
+    <name>yarn.nodemanager.log-dirs</name>
+    <value>/tmp/turley/hadoop/logs</value>
+    <description>the directories used by Nodemanagers as log directories</description>
+  </property>
+
+  <property>
+    <name>yarn.nodemanager.aux-services</name>
+    <value>mapreduce.shuffle</value>
+    <description>shuffle service that needs to be set for Map Reduce to run </description>
+  </property>
+</configuration>
