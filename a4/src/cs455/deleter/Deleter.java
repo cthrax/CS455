@@ -36,15 +36,29 @@ public class Deleter {
     }
 
     public static void main(String[] args) {
+        String input = args[0];
+        for(int i = 1; i < args.size(); i++) {
+            input += " " + args[i];
+        }
+        Text sentence = new Text(input);
         // Create a new job
-        Job deletion = Job.getInstance(new Configuration());
+        Configuration jobConf = new Configuration();
+
+        jobconf.set("sentence", input);
+        jobConf.addResource(new Path("/probabilites/foo"));
+
+        jobConf.setInputFormat(CompositeInputFormat.class);
+        jobConf.set("mapred.join.expr", CompositeInputFormat.compose("inner", KeyValueTextInputFormat.class,
+                    FileInputFormat.getInputPaths(jobConf)));
+
+        jobConf.setOuptutFormat(); //TODO: These two lines
+        jobConf.setOutputValueFormat();
+
+        Job deletion = Job.getInstance(jobConf);
         deletion.setJarByClass(Deleter.class);
 
         // Specify job-specific parameters
         deletion.setJobName("Deleter");
-
-        deletion.setInputPath(new Path("/probabilities"));
-        deletion.setOutputPath(new Path("/out"));
 
         deletion.setMapperClass(DeleteMapper.class);
         deletion.setReducerClass(DeleteReducer.class);
