@@ -1,49 +1,55 @@
 package cs455.deleter;
 
+import java.util.StringTokenizer;
+import java.io.IOException;
+
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
+import org.apache.hadoop.mapreduce.*;
+import org.apache.hadoop.mapreduce.lib.join.*;
 
 public class Deleter {
 
-    public class DeleteMapper extends Mapper<Text, Tuple<Text,DoubleWritable>, Text, Tuple<Text,DoubleWritable>> {
+    public class DeleteMapper extends Mapper<Text, TupleWritable, Text, TupleWritable> {
         private IntWritable count;
         private Text second;
         private Text first;
 
-        public void map(ik key, iv value, Context context) throws IOException, InterruptedException {
+        public void map(Text key, TupleWritable value, Context context) throws IOException, InterruptedException {
             //TODO: Implement DeleteMapper
-            String line = value.toString();
-            StringTokenizer tok = new StringTokenizer(line);
-
-            while(tok.hasMoreTokens()) {
-                first.set(tokenizer.nextToken());
-                context.write(word, count);
-            }
+//            String line = value.toString();
+//            StringTokenizer tok = new StringTokenizer(line);
+//
+//            while(tok.hasMoreTokens()) {
+//                first.set(tok.nextToken());
+//                context.write(word, count);
+//            }
         }
     }
 
-    public class DeleteReducer extends Reducer<ik, iv, ok, ov> {
+    public class DeleteReducer extends Reducer<Text, TupleWritable, Text, TupleWritable> {
         
-        public void reduce(ik key, Iterable<iv> values, Context context) {
+        public void reduce(Text key, Iterable<TupleWritable> values, Context context) {
             //TODO: Implement DeleteReducer
         }
     }
 
     public static void main(String[] args) {
         // Create a new job
-        Job deletion = new Job(new Configuration());
-        job.setJarByClass(Deleter.class);
+        Job deletion = Job.getInstance(new Configuration());
+        deletion.setJarByClass(Deleter.class);
 
         // Specify job-specific parameters
-        job.setJobName("Deleter");
+        deletion.setJobName("Deleter");
 
-        job.setInputPath(new Path("hdfs:///probabilities"));
-        job.setOutputPath(new Path("hdfs:///out"));
+        deletion.setInputPath(new Path("/probabilities"));
+        deletion.setOutputPath(new Path("/out"));
 
-        job.setMapperClass(DeleteMapper.class);
-        job.setReducerClass(DeleteReducer.class);
+        deletion.setMapperClass(DeleteMapper.class);
+        deletion.setReducerClass(DeleteReducer.class);
 
         // Submit the job, poll for progress until it completes
-        job.waitForCompletion(true);
+        deletion.waitForCompletion(true);
     }
 }
