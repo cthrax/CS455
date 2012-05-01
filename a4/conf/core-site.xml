@@ -18,8 +18,8 @@
 
 <configuration>
    <property>
-      <name>fs.defaultFS</name>
-      <value>hdfs://antero:9998</value>
+      <name>fs.default.name</name>
+      <value>hdfs://antero:10503</value>
    </property>
    <property>
       <name>io.file.buffer.size</name>

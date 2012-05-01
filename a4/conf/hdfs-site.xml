@@ -17,24 +17,51 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+<!-- Namenode specific configuration properties -->
    <property>
-      <name>dfs.namenode.name.dir</name>
-      <value>file:///tmp/turley/hadoop/name</value>
+           <name>dfs.namenode.name.dir</name>
+           <value>file:/tmp/bostwickRuddTurley-name</value>
+      <description>Determines local filesystem where name node should store the name table</description>
    </property>
    <property>
+      <name>dfs.namenode.http-address</name>
+      <value>0.0.0.0:10505</value>
+      <description>The address and the base port where the dfs namenode web ui will listen on.</description>
+   </property>
+   <property>
+      <name>dfs.namenode.secondary.http-address</name>
+      <value>0.0.0.0:10506</value>
+      <description>The secondary namenode http server address and port.</description>
+   </property>
+   <property>
+      <name>dfs.namenode.backup.address</name>
+      <value>0.0.0.0:10507</value>
+      <description>The backup node server address and port.</description>
+   </property>
+   <property>
+      <name>dfs.namenode.backup.http-address</name>
+      <value>0.0.0.0:10508</value>
+      <description>The backup node http server address and port.</description>
+   </property>
+<!-- Datanode configuration properties -->
+   <property>
       <name>dfs.datanode.data.dir</name>
-      <value>file:///tmp/turley/hadoop/hdfs</value>
+      <value>file:/tmp/bostwickRuddTurley-data</value>
+      <description>Determines the local filesystem where data node should store its blocks</description>
    </property>
    <property>
       <name>dfs.datanode.address</name>
-      <value>0.0.0.0:9998</value>
+           <value>0.0.0.0:10509</value>
+           <description>The address where the datanode server will listen to</description>
    </property>
    <property>
       <name>dfs.datanode.http.address</name>
-      <value>0.0.0.0:0</value>
+           <value>0.0.0.0:10510</value>
+           <description>The datanode http server address and port</description>
    </property>
    <property>
-      <name>dfs.datanode.ipc.address</name>
-      <value>0.0.0.0:0</value>
+           <name>dfs.datanode.ipc.address</name>
+           <value>0.0.0.0:10511</value>
+           <description>The datanode ipc server address and port</description>
    </property>
 </configuration>

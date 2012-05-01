@@ -20,7 +20,13 @@ del:
 	java -classpath ${JARPATH} cs455.deleter.Deleter I am a a tree
 
 stat:
-	java -classpath ${JARPATH} cs455.statistics.Statistic hdfs://antero/books/9973.txt hdfs://antero/probabilities/test.out
+	/usr/local/hadoop-0.23.1/bin/hadoop jar a4.jar cs455.statistics.Statistic /books/* /probabilities/
+
+count:
+	/usr/local/hadoop-0.23.1/bin/hadoop jar bin/wordcount.jar org.myorg.WordCount /books/* /myout
 
 jar:
-	jar -cvf cs455.deleter.jar *.class
+	cd bin
+	jar -cvf a4.jar bin/
+	mv a4.jar ..
+	cd ..
