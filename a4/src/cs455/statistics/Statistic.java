@@ -52,7 +52,7 @@ public class Statistic {
         }
     }
 
-    public static class WordCountReduce extends Reducer<Text, TupleWritable, Text, Text> {
+    public static class WordCountReduce extends Reducer<Text, TupleWritable, Text, HashPrintable> {
 
         @Override
         public void reduce(Text key, Iterable<TupleWritable> values, Context context) throws IOException, InterruptedException {
@@ -65,7 +65,7 @@ public class Statistic {
                 }
                 prev.put(prevKey, prev.get(prevKey) + ((IntWritable) val.get(1)).get());
             }
-            context.write(key, new Text(prev.toString()));
+            context.write(key, prev);
         }
     }
 
@@ -98,7 +98,10 @@ public class Statistic {
         Job job = new Job(conf);
 
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(HashMap.class);
+        job.setOutputValueClass(HashPrintable.class);
+
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(TupleWritable.class);
 
         job.setMapperClass(WordMap.class);
         job.setReducerClass(WordCountReduce.class);
@@ -108,6 +111,7 @@ public class Statistic {
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
 
         job.waitForCompletion(true);
     }
