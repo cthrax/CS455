@@ -58,7 +58,7 @@ public class Statistic {
             for (Text val : values) {
                 String[] split = val.toString().split(" ");
                 String prevKey = split[0];
-                Integer count = Integer.getInteger(split[1]);
+                int count = Integer.parseInt(split[1]);
 
                 if (!prev.containsKey(prevKey)) {
                     prev.put(prevKey, 0);
@@ -74,6 +74,8 @@ public class Statistic {
          *
          */
         private static final long serialVersionUID = 1L;
+
+         public HashPrintable() {super(); }
 
         @Override
         public String toString() {
