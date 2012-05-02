@@ -14,7 +14,7 @@ default: classes
 classes: Statistic
 
 clean:
-	$(RM) ../bin/cs455/deletion/*.class ../bin/cs455/statistics/*.class ../bin/*.jar
+	$(RM) ../bin/cs455/deletion/*.class ../bin/cs455/statistics/*.class *.jar
 
 del:
 	java -classpath ${JARPATH} cs455.deleter.Deleter I am a a tree
