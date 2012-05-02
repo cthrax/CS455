@@ -3,6 +3,8 @@ JARPATH=/usr/local/hadoop-0.23.1/share/hadoop/common/hadoop-common-0.23.1.jar:/u
 JFLAGS = -classpath ${JARPATH}
 JC = javac
 
+all: default
+
 Deleter: 
 	$(JC) $(JFLAGS) -d bin/ src/cs455/deleter/Deleter.java
 
@@ -11,10 +13,10 @@ Statistic:
 
 default: classes
 
-classes: Statistic
+classes: Statistic Deleter
 
 clean:
-	$(RM) ../bin/cs455/deletion/*.class ../bin/cs455/statistics/*.class *.jar
+	$(RM) bin/cs455/deletion/*.class bin/cs455/statistics/*.class *.jar
 
 del:
 	java -classpath ${JARPATH} cs455.deleter.Deleter I am a a tree
