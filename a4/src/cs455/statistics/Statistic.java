@@ -59,21 +59,28 @@ public class Statistic {
         @Override
         public void reduce(final Text key, final Iterable<Text> values, final Context context) throws IOException, InterruptedException {
             HashPrintable prev = new HashPrintable();
+            int total = 0;
             for (Text val : values) {
                 String[] split = val.toString().split(" ");
                 String prevKey = split[0];
                 int count = Integer.parseInt(split[1]);
 
                 if (!prev.containsKey(prevKey)) {
-                    prev.put(prevKey, 0);
+                    prev.put(prevKey, 0.0);
                 }
+                total += count;
                 prev.put(prevKey, prev.get(prevKey) + count);
             }
+
+            for (String k : prev.keySet()) {
+                prev.put(k, prev.get(k) / total);
+            }
+
             context.write(key, prev);
         }
     }
 
-    public static class HashPrintable extends HashMap<String, Integer> {
+    public static class HashPrintable extends HashMap<String, Double> {
         /**
          *
          */
@@ -84,16 +91,13 @@ public class Statistic {
         @Override
         public String toString() {
             StringBuilder builder = new StringBuilder();
-            builder.append("{");
 
             for (String key : keySet()) {
-                builder.append("(");
                 builder.append(key);
                 builder.append(",");
                 builder.append(get(key));
-                builder.append(")");
+                builder.append(";");
             }
-            builder.append("}");
             return builder.toString();
         }
     }

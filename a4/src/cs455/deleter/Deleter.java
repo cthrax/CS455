@@ -31,10 +31,21 @@ public class Deleter {
         }
     }
 
-    public class DeleteReducer extends Reducer<Text, TupleWritable, Text, TupleWritable> {
+    public class DeleteReducer extends Reducer<Text, Iterable<Text>, Text, Iterable<Text>> {
         
-        public void reduce(Text key, Iterable<TupleWritable> values, Context context) {
-            //TODO: Implement DeleteReducer
+        public void reduce(Text key, Iterable<Text> values, Context context) {
+	    int kickerIndex = -1;
+	    float kickerProb = Float.MAX_VALUE;
+	    int i = 0;
+	    for (Text val : values) {
+		String[] split = val.toString().split(" ");
+		float prob = Float.parseFloat(split[2]);
+		if (prob < kickerProb) {
+		    kickerIndex = i;
+		    kickerProb = prob; 
+		}
+		i++;
+	    }
         }
     }
 
