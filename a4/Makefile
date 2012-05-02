@@ -26,7 +26,4 @@ count:
 	/usr/local/hadoop-0.23.1/bin/hadoop jar bin/wordcount.jar org.myorg.WordCount /books/* /myout
 
 jar:
-	cd bin
-	jar -cvf a4.jar bin/
-	mv a4.jar ..
-	cd ..
+	scripts/makejar.sh

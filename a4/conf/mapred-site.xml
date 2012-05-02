@@ -17,17 +17,16 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-<property>
-    <name>mapreduce.cluster.temp.dir</name>
-    <value>/tmp/turley/hadoop</value>
-    <description>No description</description>
-    <final>true</final>
-  </property>
-
   <property>
-    <name>mapreduce.cluster.local.dir</name>
-    <value>/tmp/turley/hadoop</value>
-    <description>No description</description>
-    <final>true</final>
+    <name>mapreduce.shuffle.port</name>
+    <value>10500</value>
+  </property>
+  <property>
+    <name>mapred.job.tracker.http.address</name>
+    <value>0.0.0.0:10501</value>
+  </property>
+  <property>
+    <name>mapred.task.tracker.http.address</name>
+    <value>0.0.0.0:10502</value>
   </property>
 </configuration>
