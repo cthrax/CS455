@@ -37,6 +37,9 @@ public class Statistic {
             while (tokenizer.hasMoreTokens()) {
                 if (prev.equals("")) {
                     prev = tokenizer.nextToken();
+                    if (prev.matches("[^A-Za-z']")) {
+                        continue;
+                    }
                     prevw.set(prev);
                     continue;
                 }
@@ -49,11 +52,11 @@ public class Statistic {
         }
     }
 
-    public static class WordCountReduce extends Reducer<Text, TupleWritable, Text, HashMap<String, Integer>> {
+    public static class WordCountReduce extends Reducer<Text, TupleWritable, Text, Text> {
 
         @Override
         public void reduce(Text key, Iterable<TupleWritable> values, Context context) throws IOException, InterruptedException {
-            HashMap<String, Integer> prev = new HashMap<String, Integer>();
+            HashPrintable prev = new HashPrintable();
             for (TupleWritable val : values) {
                 String prevKey = ((Text)val.get(0)).toString();
 
@@ -62,7 +65,30 @@ public class Statistic {
                 }
                 prev.put(prevKey, prev.get(prevKey) + ((IntWritable) val.get(1)).get());
             }
-            context.write(key, prev);
+            context.write(key, new Text(prev.toString()));
+        }
+    }
+
+    public static class HashPrintable extends HashMap<String, Integer> {
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("{");
+
+            for (String key : keySet()) {
+                builder.append("(");
+                builder.append(key);
+                builder.append(",");
+                builder.append(get(key));
+                builder.append(")");
+            }
+            builder.append("}");
+            return builder.toString();
         }
     }
 
