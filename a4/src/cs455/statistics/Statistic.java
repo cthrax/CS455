@@ -35,14 +35,18 @@ public class Statistic {
             while (tokenizer.hasMoreTokens()) {
                 if (prev.equals("")) {
                     prev = tokenizer.nextToken();
-                    if (prev.matches("[^A-Za-z']")) {
-                        continue;
+                    prev = prev.replaceAll("[^A-Za-z']", "");
+                    if (!prev.equals("")) {
+                        prevw.set(prev);
                     }
-                    prevw.set(prev);
                     continue;
                 }
 
                 String token = tokenizer.nextToken();
+                token = token.replaceAll("[^A-Za-z']", "");
+                if (token.equals("")) {
+                    continue;
+                }
                 word.set(token);
                 context.write(word, new Text(prevw.toString() + " 1"));
                 prevw.set(word);
