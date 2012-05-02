@@ -1,5 +1,6 @@
 package cs455.deleter;
 
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.io.IOException;
 
@@ -30,7 +31,7 @@ public class Deleter {
 
     public class DeleteReducer extends Reducer<Text, Iterable<Text>, Text, Iterable<Text>> {
         
-        public void reduce(Text key, Iterable<Text> values, Context context) {
+        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 	    int kickerIndex = -1;
 	    float kickerProb = Float.MAX_VALUE;
 	    int i = 0;
@@ -40,6 +41,17 @@ public class Deleter {
 		if (prob < kickerProb) {
 		    kickerIndex = i;
 		    kickerProb = prob; 
+		}
+		i++;
+	    }
+	    i = 0;
+	    for (Text val : values) {
+		String[] split = val.toString().split(" ");
+		if (i != kickerIndex) {
+		    LinkedList<Text> out = new LinkedList<Text>();
+		    out.add(new Text(split[0]));
+		    out.add(new Text(split[1]));
+		    context.write(key, out);
 		}
 		i++;
 	    }
