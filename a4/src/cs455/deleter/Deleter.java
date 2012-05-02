@@ -75,8 +75,8 @@ public class Deleter {
         deletion.setMapperClass(DeleteMapper.class);
         deletion.setReducerClass(DeleteReducer.class);
 
-        FileInputFormat.addInputPath(deletion, new Path(args[0]);
-        FileOutputFormat.addOutputPath(deletion, new Path(args[1]);
+        FileInputFormat.addInputPath(deletion, new Path(args[0]));
+        FileOutputFormat.addOutputPath(deletion, new Path(args[1]));
 
         // Submit the job, poll for progress until it completes
         deletion.waitForCompletion(true);
