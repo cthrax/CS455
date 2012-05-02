@@ -28,6 +28,9 @@ public class Statistic {
 
         @Override
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+            if (value == null) {
+                return;
+            }
             String line = value.toString();
             StringTokenizer tokenizer = new StringTokenizer(line);
             String prev = "";
