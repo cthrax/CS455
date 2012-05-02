@@ -69,7 +69,7 @@ public class Statistic {
         Job job = new Job(conf);
 
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        job.setOutputValueClass(HashMap.class);
 
         job.setMapperClass(WordMap.class);
         job.setReducerClass(WordCountReduce.class);
