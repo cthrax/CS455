@@ -18,8 +18,11 @@ classes: Statistic Deleter
 clean:
 	$(RM) bin/cs455/deletion/*.class bin/cs455/statistics/*.class *.jar
 
+clean-hdfs:
+	scripts/hadoop23.sh fs -rm -f -r /user/turley/probabilities
+
 del:
-	java -classpath ${JARPATH} cs455.deleter.Deleter I am a a tree
+	/usr/local/hadoop-0.23.1/bin/hadoop jar a4.jar cs455.deleter.Deleter /books/* probabilities/
 
 stat:
 	/usr/local/hadoop-0.23.1/bin/hadoop jar a4.jar cs455.statistics.Statistic /books/* probabilities/
