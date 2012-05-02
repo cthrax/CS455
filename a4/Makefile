@@ -20,10 +20,10 @@ del:
 	java -classpath ${JARPATH} cs455.deleter.Deleter I am a a tree
 
 stat:
-	/usr/local/hadoop-0.23.1/bin/hadoop jar a4.jar cs455.statistics.Statistic /books/* /probabilities/
+	/usr/local/hadoop-0.23.1/bin/hadoop jar a4.jar cs455.statistics.Statistic /books/* probabilities/
 
 count:
-	/usr/local/hadoop-0.23.1/bin/hadoop jar bin/wordcount.jar org.myorg.WordCount /books/* /myout
+	/usr/local/hadoop-0.23.1/bin/hadoop jar bin/wordcount.jar org.myorg.WordCount /books/* /yout
 
 jar:
 	scripts/makejar.sh
