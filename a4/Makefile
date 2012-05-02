@@ -19,7 +19,7 @@ default: classes
 classes: Statistic Deleter 
 
 clean:
-	$(RM) bin/cs455/deletion/*.class bin/cs455/statistics/*.class *.jar bin/org/myorg/*.class
+	$(RM) bin/cs455/deletion/*.class bin/cs455/statistics/*.class *.jar
 
 clean-hdfs:
 	scripts/hadoop23.sh fs -rm -f -r /user/turley/probabilities
