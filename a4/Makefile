@@ -8,6 +8,12 @@ all: default
 Deleter: 
 	$(JC) $(JFLAGS) -d bin/ src/cs455/deleter/Deleter.java
 
+DeleteMapper: 
+	$(JC) $(JFLAGS) -d bin/ src/cs455/deleter/DeleteMapper.java
+
+DeleteReducer: 
+	$(JC) $(JFLAGS) -d bin/ src/cs455/deleter/DeleteReducer.java
+
 Statistic: 
 	$(JC) $(JFLAGS) -d bin/ src/cs455/statistics/Statistic.java
 	
@@ -16,16 +22,18 @@ WordCount:
 
 default: classes
 
-classes: Statistic Deleter 
+classes: DeleteMapper DeleteReducer Statistic Deleter 
 
 clean:
-	$(RM) bin/cs455/deletion/*.class bin/cs455/statistics/*.class *.jar
+	$(RM) bin/cs455/deleter/*.class bin/cs455/statistics/*.class *.jar
 
 clean-hdfs:
 	scripts/hadoop23.sh fs -rm -f -r /user/turley/probabilities
+clean-del:
+	scripts/hadoop23.sh fs -rm -f -r /user/turley/delOut
 
 del:
-	/usr/local/hadoop-0.23.1/bin/hadoop jar a4.jar cs455.deleter.Deleter /books/* probabilities/
+	/usr/local/hadoop-0.23.1/bin/hadoop jar a4.jar cs455.deleter.Deleter probabilities/ delOut
 
 stat:
 	/usr/local/hadoop-0.23.1/bin/hadoop jar a4.jar cs455.statistics.Statistic /books probabilities/
