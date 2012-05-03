@@ -50,11 +50,7 @@ public class DeleteMapper extends Mapper<LongWritable, Text, Text, Text> {
 				if (sentenceBigrams.get(second.toString()).contains(
 						first.toString())) {
 					System.out.println("FOUND: " + first + " " + second);
-					context.write(new Text(sentence), new Text(first.toString()
-							+ " " + second.toString() + " " + prob));
-				} else {
-					context.write(new Text(sentence), new Text(first.toString()
-							+ " " + second.toString() + " " + 0f));
+					context.write(new Text(sentence), new Text(first.toString() + " " + second.toString() + " " + prob));
 				}
 			}
 		}
