@@ -24,6 +24,7 @@ public class DeleteMapper extends Mapper<LongWritable, Text, Text, Text> {
       sentence = input;
       String[] split = input.split(" ");
       for (int i = 0; i < split.length-1; i++) {
+         System.out.println("Bigram "+i+": "+split[i]+" "+split[i+1]);
          String first = split[i];
          String second = split[i+1];
          if (!sentenceBigrams.containsKey(second)) {
@@ -34,7 +35,7 @@ public class DeleteMapper extends Mapper<LongWritable, Text, Text, Text> {
    }
 
    public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-//      second = key;
+      //      second = key;
       String[] line = value.toString().split("\t");
       second = new Text(line[0]);
       line = value.toString().substring(value.toString().indexOf("\t")).split(";");
@@ -42,10 +43,13 @@ public class DeleteMapper extends Mapper<LongWritable, Text, Text, Text> {
       for(String s : line) {
          first = new Text(s.split(",")[0]);
          Float prob = Float.parseFloat(s.split(",")[1]);
-         if (sentenceBigrams.containsKey(second.toString())
-               && sentenceBigrams.get(second.toString()).contains(first.toString())) {
-            context.write(new Text(sentence), new Text(first.toString() + " " + second.toString() + " " + prob));
+         if (sentenceBigrams.containsKey(second.toString())) {
+            if(sentenceBigrams.get(second.toString()).contains(first.toString())) {
+               System.out.println("FOUND: "+first+" "+second);
+               context.write(new Text(sentence), new Text(first.toString() + " " + second.toString() + " " + prob));
+            } else { 
+            //   context.write(new Text(sentence), new Text(first.toString() + " " + second.toString() + " " + 0f));
+            }}
          }
       }
    }
-}

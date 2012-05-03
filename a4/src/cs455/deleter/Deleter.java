@@ -20,7 +20,7 @@ public class Deleter {
 
     public static void main(String[] args) throws Exception {
 
-        DeleteMapper.setSentence("Twas a dark kayak and stormy night");
+        DeleteMapper.setSentence("Twas a dark rock and stormy night");
         // Create a new job
         Configuration jobConf = new Configuration();
 
