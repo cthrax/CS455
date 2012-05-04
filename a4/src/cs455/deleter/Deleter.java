@@ -1,26 +1,24 @@
 package cs455.deleter;
 
-import cs455.deleter.DeleteMapper;
-import cs455.deleter.DeleteReducer;
-import cs455.statistics.*;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
-import java.io.IOException;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.*;
-import org.apache.hadoop.mapreduce.*;
-import org.apache.hadoop.mapreduce.lib.join.*;
-import org.apache.hadoop.mapreduce.lib.input.*;
-import org.apache.hadoop.mapreduce.lib.output.*;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class Deleter {
 
 
     public static void main(String[] args) throws Exception {
 
-        DeleteMapper.setSentence("Twas a dark rock and stormy night");
+        if (args.length <= 2) {
+            DeleteMapper.setSentence("It was a dark rock and stormy night");
+        } else {
+            DeleteMapper.setSentence(args[2]);
+        }
         // Create a new job
         Configuration jobConf = new Configuration();
 

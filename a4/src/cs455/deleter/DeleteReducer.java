@@ -1,18 +1,12 @@
 package cs455.deleter;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
-import java.util.HashMap;
 import java.io.IOException;
-//import java.util.StringBuilder
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.*;
-import org.apache.hadoop.mapreduce.*;
-import org.apache.hadoop.mapreduce.lib.join.*;
-import org.apache.hadoop.mapreduce.lib.input.*;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Reducer;
 
 public class DeleteReducer extends Reducer<Text, Text, Text, Text> {
 
@@ -20,8 +14,6 @@ public class DeleteReducer extends Reducer<Text, Text, Text, Text> {
 		HashMap<String, LinkedList<String>> sentenceBigrams = new HashMap<String, LinkedList<String>>();
 		String[] split = input.split(" ");
 		for (int i = 0; i < split.length - 1; i++) {
-			System.out.println("Bigram " + i + ": " + split[i] + " "
-					+ split[i + 1]);
 			String first = split[i];
 			String second = split[i + 1];
 			if (!sentenceBigrams.containsKey(second)) {
@@ -31,8 +23,9 @@ public class DeleteReducer extends Reducer<Text, Text, Text, Text> {
 		}
 		return sentenceBigrams;
 	}
-	
-	public void reduce(Text key, Iterable<Text> values, Context context)
+
+	@Override
+    public void reduce(Text key, Iterable<Text> values, Context context)
 			throws IOException, InterruptedException {
 		LinkedList<Text> hackIter = new LinkedList<Text>();
 		Text kicker = new Text();
@@ -40,27 +33,27 @@ public class DeleteReducer extends Reducer<Text, Text, Text, Text> {
 		int i = 0;
 		HashMap<String, LinkedList<String>> sbigrams = DeleteReducer.setSentence(key.toString());
 		HashMap<String, LinkedList<String>> pbigrams = new HashMap<String, LinkedList<String>>();
-		
+
 		for (Text val : values) {
 			hackIter.add(new Text(val.toString()));
 			String[] split = val.toString().split(" ");
 			float prob = Float.parseFloat(split[2]);
-			
+
 			if (prob < kickerProb) {
 				kicker = new Text(split[0]);
 				kickerProb = prob;
 			}
-			
+
 			i++;
 			if (! pbigrams.containsKey(split[1])) {
 				pbigrams.put(split[1], new LinkedList<String>());
 			}
-			
+
 			pbigrams.get(split[1]).add(split[0]);
 			Collections.sort(pbigrams.get(split[1]));
 		}
-		
-		
+
+
 		for (String k : sbigrams.keySet()) {
 			if (!pbigrams.containsKey(k)) {
 				pbigrams.put(k, sbigrams.get(k));
@@ -85,7 +78,7 @@ public class DeleteReducer extends Reducer<Text, Text, Text, Text> {
 		StringBuilder out = new StringBuilder();
 		boolean removed = false;
 		for (String s : sentence) {
-			if (!s.equals(toRemove) && !removed) {
+            if (!s.equals(toRemove) || s.equals(toRemove) && removed) {
 				out.append(s);
 				out.append(" ");
 			} else {
@@ -93,7 +86,7 @@ public class DeleteReducer extends Reducer<Text, Text, Text, Text> {
 			}
 		}
 		context.write(new Text(out.toString()), new Text(""));
-		
+
 		/*
 		 * i = 0; StringBuilder builder = new StringBuilder(); for (Text val :
 		 * hackIter) { String[] split = val.toString().split(" "); if (i !=
